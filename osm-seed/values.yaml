@@ -60,7 +60,7 @@ domain:
 # ====================================================================================================
 db:
   enabled: true
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   env:
@@ -95,10 +95,10 @@ db:
 web:
   enabled: true
   # image: 'developmentseed/osmseed-web'
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
-    
+
   replicaCount: 1
   # Set staticIp, if you are using cloudProvider=gcp
   staticIp: 35.247.6.238
@@ -150,7 +150,7 @@ fullHistory:
 # ====================================================================================================
 dbBackupRestore:
   enabled: false
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   schedule: '0 */1 * * *'
@@ -171,7 +171,7 @@ dbBackupRestore:
 # ====================================================================================================
 planetDump:
   enabled: true
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   schedule: '0 */1 * * *'
@@ -193,7 +193,7 @@ planetDump:
 # ====================================================================================================
 replicationJob:
   enabled: true
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   resources:
@@ -212,11 +212,16 @@ replicationJob:
 # ====================================================================================================
 populateApidb:
   enabled: false
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   env:
     URL_FILE_TO_IMPORT: 'http://download.geofabrik.de/europe/monaco-latest.osm.pbf'
+    POSTGRES_HOST: 'osm-seed-cockroach-cockroachdb-public'
+    POSTGRES_USER: 'root'
+    POSTGRES_PASSWORD: ''
+    POSTGRES_DB: 'openstreetmap'
+
   resources:
     enabled: false
     requests:
@@ -231,7 +236,7 @@ populateApidb:
 # ====================================================================================================
 osmProcessor:
   enabled: false
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   env:
@@ -251,7 +256,7 @@ osmProcessor:
 # ====================================================================================================
 tilerDb:
   enabled: true
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   env:
@@ -287,7 +292,7 @@ tilerDb:
 # ====================================================================================================
 tilerImposm:
   enabled: false
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   env:
@@ -318,7 +323,7 @@ tilerImposm:
 # ====================================================================================================
 tilerServer:
   enabled: false
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   replicaCount: 1
@@ -334,7 +339,7 @@ tilerServer:
     # TILER_CACHE_REGION: us-east-1
     # TILER_CACHE_AWS_ACCESS_KEY_ID: xyz
     # TILER_CACHE_AWS_SECRET_ACCESS_KEY: xyz/q
-  # In case you use TILER_CACHE_TYPE: file with  persistenceDisk 
+  # In case you use TILER_CACHE_TYPE: file with  persistenceDisk
   persistenceDisk:
     enabled: true
     accessMode: ReadWriteOnce
@@ -361,7 +366,7 @@ tilerServer:
 # ====================================================================================================
 tilerVisor:
   enabled: false
-  image: 
+  image:
     name: 'chartpress_replace'
     tag: 'chartpress_replace'
   replicaCount: 1

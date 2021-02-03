@@ -15,7 +15,7 @@ spec:
         - name: {{ .Release.Name }}-populate-apidb-job
           image: {{ .Values.populateApidb.image.name }}:{{ .Values.populateApidb.image.tag }}
           command: ['./start.sh']
-          {{- if .Values.populateApidb.resources.enabled }}   
+          {{- if .Values.populateApidb.resources.enabled }}
           resources:
             requests:
               memory: {{ .Values.populateApidb.resources.requests.memory }}
@@ -26,16 +26,16 @@ spec:
           {{- end }}
           env:
             - name: POSTGRES_HOST
-              value: {{ .Release.Name }}-db
+              value: {{ .Values.populateApidb.env.POSTGRES_HOST }}
             - name: POSTGRES_DB
-              value: {{ .Values.db.env.POSTGRES_DB }}
+              value: {{ .Values.populateApidb.env.POSTGRES_DB }}
             - name: POSTGRES_PASSWORD
-              value: {{ quote .Values.db.env.POSTGRES_PASSWORD }}
+              value: {{ .Values.populateApidb.env.POSTGRES_PASSWORD }}
             - name: POSTGRES_USER
               value: {{ .Values.db.env.POSTGRES_USER }}
             - name: URL_FILE_TO_IMPORT
               value: {{.Values.populateApidb.env.URL_FILE_TO_IMPORT}}
-            {{- if .Values.populateApidb.resources.enabled }}   
+            {{- if .Values.populateApidb.resources.enabled }}
             - name: MEMORY_JAVACMD_OPTIONS
               value: {{ .Values.populateApidb.resources.requests.memory  | default "4Gi" | quote}}
             {{- end }}
