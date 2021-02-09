@@ -217,7 +217,8 @@ populateApidb:
     tag: 'chartpress_replace'
   env:
     URL_FILE_TO_IMPORT: 'http://download.geofabrik.de/europe/monaco-latest.osm.pbf'
-    POSTGRES_HOST: 'osm-seed-cockroach-cockroachdb-public'
+    POSTGRES_HOST: 'osm-seed-cockroachdb-public'
+    POSTGRES_PORT: 26257
     POSTGRES_USER: 'root'
     POSTGRES_PASSWORD: ''
     POSTGRES_DB: 'openstreetmap'
