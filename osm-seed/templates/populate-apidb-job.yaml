@@ -32,7 +32,7 @@ spec:
             - name: POSTGRES_PASSWORD
               value: {{ .Values.populateApidb.env.POSTGRES_PASSWORD }}
             - name: POSTGRES_USER
-              value: {{ .Values.db.env.POSTGRES_USER }}
+              value: {{ .Values.populateApidb.env.POSTGRES_USER }}
             - name: URL_FILE_TO_IMPORT
               value: {{.Values.populateApidb.env.URL_FILE_TO_IMPORT}}
             {{- if .Values.populateApidb.resources.enabled }}
