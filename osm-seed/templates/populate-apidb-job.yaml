@@ -34,7 +34,7 @@ spec:
             - name: POSTGRES_USER
               value: {{ .Values.populateApidb.env.POSTGRES_USER }}
             - name: POSTGRES_PORT
-              value: {{ .Values.populateApidb.env.POSTGRES_PORT }}
+              value: {{ .Values.populateApidb.env.POSTGRES_PORT | quote }}
             - name: URL_FILE_TO_IMPORT
               value: {{.Values.populateApidb.env.URL_FILE_TO_IMPORT}}
             {{- if .Values.populateApidb.resources.enabled }}
