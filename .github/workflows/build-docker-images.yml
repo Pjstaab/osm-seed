@@ -12,6 +12,9 @@ jobs:
         working-directory: ./images/osm-processor
     steps:
       -
+        name: Checkout code
+        uses: actions/checkout@master
+      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       -
