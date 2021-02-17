@@ -177,6 +177,11 @@ planetDump:
   schedule: '0 */1 * * *'
   env:
     CLEAN_BACKUPS: true
+    POSTGRES_HOST: 'osm-seed-cockroachdb-public'
+    POSTGRES_PORT: '26257'
+    POSTGRES_USER: 'root'
+    POSTGRES_PASSWORD: ''
+    POSTGRES_DB: 'openstreetmap'
   resources:
     enabled: false
     requests:

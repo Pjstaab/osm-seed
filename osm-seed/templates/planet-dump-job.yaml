@@ -37,13 +37,15 @@ spec:
             {{- end }}
             env:
               - name: POSTGRES_HOST
-                value: {{ .Release.Name }}-db
+                value: {{ .Values.planetDump.env.POSTGRES_HOST }}
               - name: POSTGRES_DB
-                value: {{ .Values.db.env.POSTGRES_DB }}
+                value: {{ .Values.planetDump.env.POSTGRES_DB }}
               - name: POSTGRES_PASSWORD
-                value: {{ quote .Values.db.env.POSTGRES_PASSWORD }}
+                value: {{ .Values.planetDump.env.POSTGRES_PASSWORD }}
               - name: POSTGRES_USER
-                value: {{ .Values.db.env.POSTGRES_USER }}
+                value: {{ .Values.planetDump.env.POSTGRES_USER }}
+              - name: POSTGRES_PORT
+                value: {{ .Values.planetDump.env.POSTGRES_PORT | quote }}
               - name: CLOUDPROVIDER
                 value: {{ .Values.cloudProvider }}
               - name: OVERWRITE_PLANET_FILE
