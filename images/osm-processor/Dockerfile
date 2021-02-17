@@ -51,7 +51,7 @@ RUN osmosis --version 2>&1 | grep "Osmosis Version"
 
 ENV OSM2PGSQL_VERSION="1.4.0"
 RUN git clone https://github.com/openstreetmap/osm2pgsql
-RUN WITH_LUAJIT=ON cd osm2pgsql && git checkout ${OSM2PGSQL_VERSION} && mkdir build && cd build && cmake .. && make && make install
+RUN cd osm2pgsql && git checkout ${OSM2PGSQL_VERSION} && mkdir build && cd build && cmake -D WITH_LUAJIT=ON  .. && make && make install
 ENV PROTOZERO_VERSION="v1.7.0"
 RUN git clone https://github.com/mapbox/protozero
 RUN cd protozero && git checkout ${PROTOZERO_VERSION} && mkdir build && cd build && cmake .. && make && make install
