@@ -8,9 +8,6 @@ metadata:
     component: planet-dump-job
     environment: {{ .Values.environment }}
     release: {{ .Release.Name }}
-{{ if .Values.planetDump.annotations }}
-  annotations:
-{{ toYaml .Values.planetDump.annotations | indent 4 }}
 {{ end }}
 spec:
   schedule: {{ quote .Values.planetDump.schedule }}
@@ -21,6 +18,10 @@ spec:
   jobTemplate:
     spec:
       template:
+        {{ if .Values.planetDump.annotations }}
+        metadata:
+          annotations:
+        {{ toYaml .Values.planetDump.annotations }}
         spec:
           containers:
           - name: {{ .Release.Name }}-planet-dump-job
