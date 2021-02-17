@@ -18,10 +18,9 @@ spec:
   jobTemplate:
     spec:
       template:
-        {{ if .Values.planetDump.annotations }}
         metadata:
-          {{ toYaml .Values.planetDump.annotations | indent 10 }}
-        {{ end }}
+          annotations:
+            iam.amazonaws.com/role: {{ .Values.planetDump.iamRoleName }}
         spec:
           containers:
           - name: {{ .Release.Name }}-planet-dump-job
