@@ -42,9 +42,6 @@ jobs:
           tags: ghcr.io/pjstaab/osmseed-osm-processor:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-      -
-        name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
 
   planet-dump:
     runs-on: ubuntu-latest
@@ -84,9 +81,6 @@ jobs:
           tags: ghcr.io/pjstaab/osmseed-planet-dump:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-      -
-        name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
 
   populate-apidb:
     runs-on: ubuntu-latest
@@ -126,6 +120,3 @@ jobs:
           tags: ghcr.io/pjstaab/osmseed-populate-apidb:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-      -
-        name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
