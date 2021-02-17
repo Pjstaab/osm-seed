@@ -1,21 +1,28 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 ENV workdir /mnt/data
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update
 RUN apt-get -y install \
     build-essential \
     libboost-program-options-dev \
+    libboost-dev \
+    libboost-system-dev \
+    libboost-filesystem-dev \
+    libpq-dev \
     libbz2-dev \
     zlib1g-dev \
     libexpat1-dev \
+    libproj-dev \
+    lua5.3 \
+    liblua5.3-dev \
     cmake \
     pandoc \
     git \
-    python-pip \
+    python3-pip \
     curl \
     unzip \
     wget \
     software-properties-common \
-    python-software-properties \
     libz-dev \
     zlib1g-dev \
     gdal-bin \
@@ -25,35 +32,48 @@ RUN apt-get -y install \
     default-jre \
     default-jdk \
     gradle \
-    apt-utils
+    apt-utils \
+    postgresql-client
+
+# Setup versions after apt-get to keep layers
+ENV OSMOSIS_VERSION="0.48.3"
 
 # Install osmosis
 RUN git clone https://github.com/openstreetmap/osmosis.git
 WORKDIR osmosis
-RUN git checkout 9cfb8a06d9bcc948f34a6c8df31d878903d529fc
+RUN git checkout ${OSMOSIS_VERSION}
 RUN mkdir "$PWD"/dist
 RUN ./gradlew assemble
 RUN tar -xvzf "$PWD"/package/build/distribution/*.tgz -C "$PWD"/dist/
 RUN ln -s "$PWD"/dist/bin/osmosis /usr/bin/osmosis
 RUN osmosis --version 2>&1 | grep "Osmosis Version"
 
-# Install osmium-tool
+ENV OSM2PGSQL_VERSION="1.4.0"
+RUN git clone https://github.com/openstreetmap/osm2pgsql
+RUN cd osm2pgsql && git checkout ${OSM2PGSQL_VERSION} && mkdir build && cd build && cmake .. && make && make install
+ENV PROTOZERO_VERSION="v1.7.0"
 RUN git clone https://github.com/mapbox/protozero
-RUN cd protozero && git checkout 23d48fd2a441c6e3b2852ff84a0ba398e48f74be && mkdir build && cd build && cmake .. && make && make install
+RUN cd protozero && git checkout ${PROTOZERO_VERSION} && mkdir build && cd build && cmake .. && make && make install
+ENV LIBOSMIUM_VERSION="v2.16.0"
 RUN git clone https://github.com/osmcode/libosmium
-RUN cd libosmium && git checkout a1f88fe44b01863a1ac84efccff54b98bb2dc886 && mkdir build && cd build && cmake .. && make && make install
+RUN cd libosmium && git checkout ${LIBOSMIUM_VERSION} && mkdir build && cd build && cmake .. && make && make install
+ENV OSMIUM_TOOL_VERSION="v1.13.1"
 RUN git clone https://github.com/osmcode/osmium-tool
-RUN cd osmium-tool && git checkout ddbcb44f3ec0c1a8d729e69e3cee40d25f5a00b4 && mkdir build && cd build && cmake .. && make && make install
+RUN cd osmium-tool && git checkout ${OSMIUM_TOOL_VERSION} && mkdir build && cd build && cmake .. && make && make install
+ENV IMPOSM3_VERSION="0.11.0"
+RUN curl -L https://github.com/omniscale/imposm3/releases/download/v${IMPOSM3_VERSION}/imposm-${IMPOSM3_VERSION}-linux-x86-64.tar.gz \
+    -o /tmp/imposm-${IMPOSM3_VERSION}-linux-x86-64.tar.gz \
+    && tar xvzf /tmp/imposm-${IMPOSM3_VERSION}-linux-x86-64.tar.gz -C /tmp \
+    && mv /tmp/imposm-${IMPOSM3_VERSION}-linux-x86-64/* /usr/local/bin
+ENV COCKROACHDB_VERSION="v20.2.4"
+RUN curl -L https://binaries.cockroachdb.com/cockroach-${COCKROACHDB_VERSION}.linux-amd64.tgz  \
+    -o /tmp/cockroach-${COCKROACHDB_VERSION}.linux-amd64.tar.gz \
+    && tar xvzf /tmp/cockroach-${COCKROACHDB_VERSION}.linux-amd64.tar.gz -C /tmp \
+    && mv /tmp/cockroach-${COCKROACHDB_VERSION}.linux-amd64/cockroach /usr/local/bin
 
 # Install AWS and GCP cli
-RUN pip install awscli
+RUN pip3 install awscli
 RUN curl -sSL https://sdk.cloud.google.com | bash
 RUN ln -f -s /root/google-cloud-sdk/bin/gsutil /usr/bin/gsutil
-
-# Install postgresql-client
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" | tee  /etc/apt/sources.list.d/pgdg.list'
-RUN apt-get update
-RUN apt-get install -y postgresql-client
 
 WORKDIR $workdir

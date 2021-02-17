@@ -10,41 +10,35 @@ fi
 # Get the data
 wget $URL_FILE_TO_IMPORT
 file=$(basename $URL_FILE_TO_IMPORT)
+echo "Downloaded File"
+
+function initializeDatabase() {
+  cockroach sql --insecure \
+  --host $POSTGRES_HOST \
+  --execute "CREATE DATABASE IF NOT EXISTS $POSTGRES_DB"
+
+  cockroach sql --insecure \
+  --host $POSTGRES_HOST \
+  --execute "SET CLUSTER SETTING sql.conn.max_read_buffer_message_size = '64MiB'"
+}
 
 function importData () {
-    # In case the import file is a PBF
-    if [ ${file: -4} == ".pbf" ]; then
-        pbfFile=$file
-        echo "Importing $pbfFile ..."
-        osmosis --read-pbf \
-        file=$pbfFile\
-        --write-apidb \
-        host=$POSTGRES_HOST \
-        database=$POSTGRES_DB \
-        user=$POSTGRES_USER \
-        password=$POSTGRES_PASSWORD \
-        validateSchemaVersion=no
-    else
-        # In case the file is .osm
-        # Extract the osm file
-        bzip2 -d $file
-        osmFile=${file%.*}
-        echo "Importing $osmFile ..."
-        osmosis --read-xml \
-        file=$osmFile  \
-        --write-apidb \
-        host=$POSTGRES_HOST \
-        database=$POSTGRES_DB \
-        user=$POSTGRES_USER \
-        password=$POSTGRES_PASSWORD \
-        validateSchemaVersion=no
-    fi
+  pbfFile=$file
+  echo "Importing $pbfFile ..."
+  osm2pgsql \
+  -c $pbfFile \
+  -H $POSTGRES_HOST \
+  -P $POSTGRES_PORT \
+  -d $POSTGRES_DB \
+  -U $POSTGRES_USER
 }
 
 flag=true
 while "$flag" = true; do
-    pg_isready -h $POSTGRES_HOST -p 5432 -U $POSTGRES_USER >/dev/null 2>&2 || continue
+    sleep 360000
+    curl "http://$POSTGRES_HOST:8080/health?ready=1" || continue
     # Change flag to false to stop ping the DB
     flag=false
+    initializeDatabase
     importData
 done
