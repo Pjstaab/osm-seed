@@ -37,7 +37,6 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          file: Dockerfile
           push: true
           tags: ghcr.io/pjstaab/osmseed-osm-processor:latest
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -76,7 +75,6 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          file: Dockerfile
           push: true
           tags: ghcr.io/pjstaab/osmseed-planet-dump:latest
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -115,7 +113,6 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          file: Dockerfile
           push: true
           tags: ghcr.io/pjstaab/osmseed-populate-apidb:latest
           cache-from: type=local,src=/tmp/.buildx-cache
