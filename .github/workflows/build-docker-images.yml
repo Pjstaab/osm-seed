@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: images/osm-processor
+        working-directory: ./images/osm-processor
     steps:
       -
         name: Set up QEMU
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: images/planet-dump
+        working-directory: ./images/planet-dump
     needs: [osm-processor]
     steps:
       -
@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: images/populate-apidb
+        working-directory: ./images/populate-apidb
     needs: [osm-processor]
     steps:
       -
