@@ -16,9 +16,14 @@ RUN apt-get -y install \
     lua5.3 \
     liblua5.3-dev \
     libluajit-5.1-dev \
+    graphiz \
+    sqlite3 \
+    aria \
+    osmctools \
     cmake \
     pandoc \
     git \
+    python3 \
     python3-pip \
     curl \
     unzip \
@@ -48,6 +53,8 @@ RUN ./gradlew assemble
 RUN tar -xvzf "$PWD"/package/build/distribution/*.tgz -C "$PWD"/dist/
 RUN ln -s "$PWD"/dist/bin/osmosis /usr/bin/osmosis
 RUN osmosis --version 2>&1 | grep "Osmosis Version"
+
+RUN python3 -m pip install git+https://github.com/openmaptiles/openmaptiles-tools
 
 ENV OSM2PGSQL_VERSION="1.4.0"
 RUN git clone https://github.com/openstreetmap/osm2pgsql
