@@ -118,8 +118,4 @@ RUN true \
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 
-COPY --from=build / /
-
 WORKDIR /app
-
-EXPOSE 8080
