@@ -16,7 +16,7 @@ RUN apt-get -y install \
     lua5.3 \
     liblua5.3-dev \
     libluajit-5.1-dev \
-    graphiz \
+    graphviz \
     sqlite3 \
     aria \
     osmctools \
