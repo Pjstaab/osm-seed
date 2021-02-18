@@ -18,7 +18,7 @@ RUN apt-get -y install \
     libluajit-5.1-dev \
     graphviz \
     sqlite3 \
-    aria \
+    aria2 \
     osmctools \
     cmake \
     pandoc \
