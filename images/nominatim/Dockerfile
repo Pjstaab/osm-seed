@@ -27,13 +27,13 @@ RUN true \
         libboost-filesystem-dev \
         # PostgreSQL.
         postgresql-contrib \
-        postgresql-server-dev-12 \
+        postgresql-server-dev-all \
         # PHP and Apache 2.
-        php \
-        php-intl \
-        php-pgsql \
-        apache2 \
-        libapache2-mod-php \
+        # php \
+        # php-intl \
+        # php-pgsql \
+        # apache2 \
+        # libapache2-mod-php \
         # Python 3.
         python3-dev \
         python3-pip \
@@ -42,7 +42,10 @@ RUN true \
         python3-setuptools \
         # Misc.
         git \
-        curl
+        curl \
+        libicu-dev
+
+RUN docker-php-ext-install intl pgsql && docker-php-ext-enable intl pgsql
 
 # Osmium install to run continuous updates.
 RUN pip3 install osmium
