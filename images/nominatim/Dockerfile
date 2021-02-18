@@ -93,18 +93,16 @@ RUN curl http://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/count
 RUN true \
     # Remove development and unused packages.
     && apt-get -y remove --purge \
-        cpp-9 \
         gcc-9* \
         g++ \
         git \
         make \
         cmake* \
-        llvm-10* \
         libc6-dev \
         linux-libc-dev \
         libclang-*-dev \
         build-essential \
-        postgresql-server-dev-12 \
+        postgresql-server-dev-all \
     && apt-get clean \
     # Clear temporary files and directories.
     && rm -rf \
