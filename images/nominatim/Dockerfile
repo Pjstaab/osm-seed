@@ -50,6 +50,7 @@ RUN docker-php-ext-install intl pgsql && docker-php-ext-enable intl pgsql
 # Osmium install to run continuous updates.
 RUN pip3 install osmium
 
+WORKDIR /var/www/html
 # Nominatim install.
 ENV NOMINATIM_VERSION v3.6.0
 
@@ -70,7 +71,9 @@ RUN true \
     && ./utils/setup.php --setup-website \
     && chmod o=rwx .
 
-COPY local.php /app/src/build/settings/local.php
+COPY local.php /var/www/html/src/build/settings/local.php
+
+RUN mv /var/www/html/src /app/src
 
 # Load initial data.
 ARG with_postcodes_gb

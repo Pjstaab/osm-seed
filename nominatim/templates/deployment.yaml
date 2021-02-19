@@ -48,7 +48,7 @@ spec:
                 command:
                   - bash
                   - -c
-                  - "mv /app/src/* /var/www/html"
+                  - "mv /app/src /var/www/html"
       volumes:
         # Create the shared files volume to be used in both pods
         - name: shared-files
