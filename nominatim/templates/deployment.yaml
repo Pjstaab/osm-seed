@@ -19,11 +19,11 @@ spec:
 
   containers:
     # Our PHP-FPM application
-    - image: ghcr.io/pjstaab/osmseed-populate-apidb:latest
+    - image: ghcr.io/pjstaab/nominatim:latest
       name: nominatim
       volumeMounts:
         - name: shared-files
-          mountPath: /var/www/html
+          mountPath: /app
 
     # Our nginx container, which uses the configuration declared above,
     # along with the files shared with the PHP-FPM app.
