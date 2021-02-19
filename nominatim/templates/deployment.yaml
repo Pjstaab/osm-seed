@@ -21,22 +21,13 @@ spec:
         app: {{ template "name" . }}
         release: {{ .Release.Name }}
     spec:
-      volumes:
-        # Create the shared files volume to be used in both pods
-        - name: shared-files
-          emptyDir: {}
-        # Add the ConfigMap we declared above as a volume for the pod
-        - name: nginx-config-volume
-          configMap:
-            name: nominatim-nginx-config
-
       containers:
         # Our PHP-FPM application
         - image: ghcr.io/pjstaab/nominatim:latest
           name: nominatim
           volumeMounts:
             - name: shared-files
-              mountPath: /app/src
+              mountPath: /app
 
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
@@ -52,3 +43,11 @@ spec:
             - containerPort: 80
               name: web
               protocol: TCP
+      volumes:
+        # Create the shared files volume to be used in both pods
+        - name: shared-files
+          emptyDir: {}
+        # Add the ConfigMap we declared above as a volume for the pod
+        - name: nginx-config-volume
+          configMap:
+            name: nominatim-nginx-config
