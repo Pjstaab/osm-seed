@@ -45,8 +45,7 @@ RUN true \
         curl \
         libicu-dev
 
-RUN docker-php-ext-install intl && docker-php-ext-install pgsql \
-    && docker-php-ext-enable intl && docker-php-ext-enable pgsql
+RUN docker-php-ext-install intl pgsql pdo_pgsql && docker-php-ext-enable intl pgsql pdo_pgsql
 
 # Osmium install to run continuous updates.
 RUN pip3 install osmium
