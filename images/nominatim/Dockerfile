@@ -111,8 +111,7 @@ RUN true \
         /root/.cache \
         /app/src/.git \
         /var/lib/apt/lists/* \
-        /var/lib/postgresql/12/main/* \
-    && mv /app/src/* /var/www/html
+        /var/lib/postgresql/12/main/*
 
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
