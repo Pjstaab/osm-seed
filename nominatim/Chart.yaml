@@ -5,7 +5,7 @@ version: 0.0.1
 dependencies:
   - name: common
     repository: https://charts.bitnami.com/bitnami
-    version: 0.x.x
+    version: ^1.0.0
   - name: postgresql-ha
     repository: https://charts.bitnami.com/bitnami
     version: 6.5.4
