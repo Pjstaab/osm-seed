@@ -8,12 +8,18 @@ metadata:
   name: nominatim
   labels:
     app: {{ template "name" . }}
+    release: {{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: {{ template "name" . }}
+      release: {{ .Release.Name }}
   template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
     spec:
       volumes:
         # Create the shared files volume to be used in both pods
