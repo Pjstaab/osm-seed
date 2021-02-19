@@ -58,16 +58,16 @@ RUN python3 -m pip install git+https://github.com/openmaptiles/openmaptiles-tool
 
 ENV OSM2PGSQL_VERSION="1.4.0"
 RUN git clone https://github.com/openstreetmap/osm2pgsql
-RUN cd osm2pgsql && git checkout ${OSM2PGSQL_VERSION} && mkdir build && cd build && cmake -D WITH_LUAJIT=ON  .. && make && make install
+RUN cd osm2pgsql && git checkout ${OSM2PGSQL_VERSION} && mkdir build && cd build && cmake -D WITH_LUAJIT=ON  .. && make -j`nproc` && make install
 ENV PROTOZERO_VERSION="v1.7.0"
 RUN git clone https://github.com/mapbox/protozero
-RUN cd protozero && git checkout ${PROTOZERO_VERSION} && mkdir build && cd build && cmake .. && make && make install
+RUN cd protozero && git checkout ${PROTOZERO_VERSION} && mkdir build && cd build && cmake .. && make -j`nproc` && make install
 ENV LIBOSMIUM_VERSION="v2.16.0"
 RUN git clone https://github.com/osmcode/libosmium
-RUN cd libosmium && git checkout ${LIBOSMIUM_VERSION} && mkdir build && cd build && cmake .. && make && make install
+RUN cd libosmium && git checkout ${LIBOSMIUM_VERSION} && mkdir build && cd build && cmake .. && make -j`nproc` && make install
 ENV OSMIUM_TOOL_VERSION="v1.13.1"
 RUN git clone https://github.com/osmcode/osmium-tool
-RUN cd osmium-tool && git checkout ${OSMIUM_TOOL_VERSION} && mkdir build && cd build && cmake .. && make && make install
+RUN cd osmium-tool && git checkout ${OSMIUM_TOOL_VERSION} && mkdir build && cd build && cmake .. && make -j`nproc` && make install
 ENV IMPOSM3_VERSION="0.11.0"
 RUN curl -L https://github.com/omniscale/imposm3/releases/download/v${IMPOSM3_VERSION}/imposm-${IMPOSM3_VERSION}-linux-x86-64.tar.gz \
     -o /tmp/imposm-${IMPOSM3_VERSION}-linux-x86-64.tar.gz \
