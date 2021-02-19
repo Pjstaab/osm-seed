@@ -42,7 +42,7 @@ spec:
           volumeMounts:
             - name: shared-files
               mountPath: /var/www/html
-            - name: nominatim-local-settings-configmap
+            - name: local-settings
               mountPath: /app/src/build/settings/local.php
               subPath: local.php
           lifecycle:
