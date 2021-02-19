@@ -70,6 +70,8 @@ RUN true \
     && ./utils/setup.php --setup-website \
     && chmod o=rwx .
 
+COPY local.php /app/src/build/settings/local.php
+
 # Load initial data.
 ARG with_postcodes_gb
 ARG with_postcodes_us
