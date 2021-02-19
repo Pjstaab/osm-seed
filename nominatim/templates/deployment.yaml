@@ -22,13 +22,6 @@ spec:
         release: {{ .Release.Name }}
     spec:
       containers:
-        # Our PHP-FPM application
-        - image: ghcr.io/pjstaab/nominatim:latest
-          name: nominatim
-          volumeMounts:
-            - name: shared-files
-              mountPath: /app
-
         # Our nginx container, which uses the configuration declared above,
         # along with the files shared with the PHP-FPM app.
         - image: nginx:alpine
@@ -43,6 +36,19 @@ spec:
             - containerPort: 80
               name: web
               protocol: TCP
+        # Our PHP-FPM application
+        - image: ghcr.io/pjstaab/nominatim:latest
+          name: nominatim
+          volumeMounts:
+            - name: shared-files
+              mountPath: /var/www/html
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - bash
+                  - -c
+                  - "mv /app/src/* /var/www/html"
       volumes:
         # Create the shared files volume to be used in both pods
         - name: shared-files
