@@ -51,7 +51,7 @@ spec:
                 command:
                   - bash
                   - -c
-                  - "mv /app/src /var/www/html"
+                  - "cp -r /app/src /var/www/html"
       volumes:
         - name: shared-files
           emptyDir: {}
