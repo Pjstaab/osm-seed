@@ -2,40 +2,45 @@
 # and nginx, each mounting the `shared-files` volume to their
 # respective /var/www/html directories.
 
-kind: Pod
-apiVersion: v1
+kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: nominatim
 spec:
-  volumes:
-    # Create the shared files volume to be used in both pods
-    - name: shared-files
-      emptyDir: {}
-
-    # Add the ConfigMap we declared above as a volume for the pod
-    - name: nginx-config-volume
-      configMap:
-        name: nominatim-nginx-config
-
-  containers:
-    # Our PHP-FPM application
-    - image: ghcr.io/pjstaab/nominatim:latest
-      name: nominatim
-      volumeMounts:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}
+  template:
+    spec:
+      volumes:
+        # Create the shared files volume to be used in both pods
         - name: shared-files
-          mountPath: /app
-
-    # Our nginx container, which uses the configuration declared above,
-    # along with the files shared with the PHP-FPM app.
-    - image: nginx:alpine
-      name: nginx
-      volumeMounts:
-        - name: shared-files
-          mountPath: /var/www/html
+          emptyDir: {}
+        # Add the ConfigMap we declared above as a volume for the pod
         - name: nginx-config-volume
-          mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
-      ports:
-        - containerPort: 80
-          name: web
-          protocol: TCP
+          configMap:
+            name: nominatim-nginx-config
+
+      containers:
+        # Our PHP-FPM application
+        - image: ghcr.io/pjstaab/nominatim:latest
+          name: nominatim
+          volumeMounts:
+            - name: shared-files
+              mountPath: /app
+
+        # Our nginx container, which uses the configuration declared above,
+        # along with the files shared with the PHP-FPM app.
+        - image: nginx:alpine
+          name: nginx
+          volumeMounts:
+            - name: shared-files
+              mountPath: /var/www/html
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+          ports:
+            - containerPort: 80
+              name: web
+              protocol: TCP
