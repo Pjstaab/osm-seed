@@ -42,6 +42,9 @@ spec:
           volumeMounts:
             - name: shared-files
               mountPath: /var/www/html
+            - name: nominatim-local-settings-configmap
+              mountPath: /app/src/build/settings/local.php
+              subPath: local.php
           lifecycle:
             postStart:
               exec:
@@ -50,10 +53,11 @@ spec:
                   - -c
                   - "mv /app/src /var/www/html"
       volumes:
-        # Create the shared files volume to be used in both pods
         - name: shared-files
           emptyDir: {}
-        # Add the ConfigMap we declared above as a volume for the pod
         - name: nginx-config-volume
           configMap:
             name: nominatim-nginx-config
+        - name: local-settings
+          configMap:
+            name: nominatim-local-settings-configmap
