@@ -72,8 +72,6 @@ RUN true \
     && ./utils/setup.php --setup-website \
     && chmod o=rwx .
 
-COPY local.php /var/www/html/src/build/settings/local.php
-
 RUN mv /var/www/html/src /app/src
 
 # Load initial data.
