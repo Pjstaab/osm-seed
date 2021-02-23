@@ -27,7 +27,7 @@ RUN true \
         libboost-filesystem-dev \
         # PostgreSQL.
         postgresql-contrib \
-        postgresql-server-dev-all \
+        postgresql-server-dev-11 \
         # PHP and Apache 2.
         # php \
         # php-intl \
