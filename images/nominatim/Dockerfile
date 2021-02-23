@@ -69,6 +69,7 @@ RUN true \
     && cmake .. \
     && make -j`nproc` \
     && ./utils/setup.php --setup-website \
+    && mv ./modules/nominatim.so website/nominatim.so
     && chmod o=rwx .
 
 RUN mv /var/www/html/src /app/src
