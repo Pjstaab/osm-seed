@@ -165,7 +165,7 @@ jobs:
           tags: ghcr.io/pjstaab/nominatim:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
-  postgressql:
+  postgresql:
     runs-on: ubuntu-latest
     steps:
       -
